@@ -38,3 +38,6 @@ then you need to run `sh /vagrant/scripts/fix_adb.sh`.  You should then see outp
 	TXABC1234		unauthorized
 	
 if you accept the debugging dialog on your phone, then your device's status will change from `unauthorized` to `device` and you are ready for debugging.
+
+## Sharing Code and Files
+The `/vagrant` directory (don't confuse this with `/home/vagrant`, which is `$HOME`) in the VM is synchronized with the directory containing the `Vagrantfile` on your host machine.  If you create Android Studio projects in the VM's `/vagrant` directory, they will be synchronized to your host machine for later editing/sharing.
