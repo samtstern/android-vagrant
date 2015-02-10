@@ -15,6 +15,7 @@ fi
 if ! [ -e $SDK_LOC ]
 then
   echo "Unzipping SDK to $SDK_LOC"
+  mkdir -p $SDK_LOC
   tar -xvf $TAR_LOC -C $SDK_LOC --strip-components=1
 else
   echo "SDK detected at $SDK_LOC"
