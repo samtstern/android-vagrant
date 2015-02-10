@@ -1,5 +1,8 @@
 #!/usr/bin/env bash
 
+# Utilities
+sudo apt-get install -y unzip
+
 # Install a Desktop Environment
 sudo apt-get install -y --no-install-recommends xubuntu-desktop
 
