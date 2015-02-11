@@ -13,6 +13,7 @@ Vagrant.configure(2) do |config|
   config.vm.provider "virtualbox" do |v|
     v.memory = 2048
     v.gui = true
+    v.customize ['modifyvm', :id, '--usb', 'on']
   end
 
   # Install Dependencies (window manager, java, etc)
