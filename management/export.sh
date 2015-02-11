@@ -2,7 +2,9 @@
 
 # Set DEBUG=true if you want to skip operations
 # that take a long time
+DEBUG=false
 
+SCRIPTDIR=`dirname "$BASH_SOURCE"`
 BASE_DIR=$(pwd)
 OUTPUT_DIR=$BASE_DIR/archive
 VAGRANT_DIR=$BASE_DIR/.vagrant/machines/default/virtualbox
@@ -13,20 +15,15 @@ fi
 
 echo "Exporting Vagrant setup from $BASE_DIR"
 
-# Get the VM ID
-# List all VMs, filter by PARTIAL_NAME, get the UUID column, strip braces
-PARTIAL_NAME=$(cat $VAGRANT_DIR/action_set_name)
-VM_ID=$(VBoxManage list vms | \
-        grep "$PARTIAL_NAME" | \
-        awk '{print $2}' | \
-        sed 's/[{,}]//g')
+# Get the VM ID (call get_vm_id.sh)
+VM_ID=$(sh $SCRIPTDIR/get_vm_id.sh $VAGRANT_DIR/action_set_name)
 
 # Export the OVA
 echo "Exporting VirtualBox VM $VM_ID"
 mkdir -p $OUTPUT_DIR
 
 if ! $DEBUG; then
-    VBoxManage export $VM_ID -o $OUTPUT_DIR/virtualbox.ova
+    VBoxManage export $VM_ID -o $OUTPUT_DIR/virtualbox.ovf
 fi
 
 # Export the Vagrant Box
