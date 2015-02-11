@@ -28,5 +28,5 @@ Vagrant.configure(2) do |config|
   config.vm.provision :shell, path: "scripts/bash_config.sh"
 
   # Fix ADB (VirtualBox USB Hack)
-  config.vm.provision :shell, path: "scripts/fix_adb.sh"
+  config.vm.provision :shell, path: "scripts/fix_adb.sh", run: "always"
 end
