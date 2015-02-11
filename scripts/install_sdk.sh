@@ -29,6 +29,9 @@ echo y | $SDK_LOC/tools/android update sdk --no-ui --all --filter extra-android-
 echo y | $SDK_LOC/tools/android update sdk --no-ui --all --filter extra-google-google_play_services
 echo y | $SDK_LOC/tools/android update sdk --no-ui --all --filter extra-google-m2repository
 echo y | $SDK_LOC/tools/android update sdk --no-ui --all --filter extra-android-m2repository
+echo y | $SDK_LOC/tools/android update sdk --no-ui --all --filter source-21
+echo y | $SDK_LOC/tools/android update sdk --no-ui --all --filter addon-google_apis-google-21
+echo y | $SDK_LOC/tools/android update sdk --no-ui --all --filter sys-img-x86-addon-google_apis-google-21
 
 # Set SDK Permissions
 echo "Setting SDK permissions"
