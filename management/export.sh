@@ -1,5 +1,4 @@
 #!/bin/bash
-
 # Set DEBUG=true if you want to skip operations
 # that take a long time
 DEBUG=false
@@ -9,14 +8,17 @@ BASE_DIR=$(pwd)
 OUTPUT_DIR=$BASE_DIR/archive
 VAGRANT_DIR=$BASE_DIR/.vagrant/machines/default/virtualbox
 
+# Include get_vm_id
+. $SCRIPTDIR/get_vm_id.sh
+
 if $DEBUG; then
     echo "DEBUG MODE IS ON: this is a dry run."
 fi
 
 echo "Exporting Vagrant setup from $BASE_DIR"
 
-# Get the VM ID (call get_vm_id.sh)
-VM_ID=$(sh $SCRIPTDIR/get_vm_id.sh $VAGRANT_DIR/action_set_name)
+# Get the VM ID
+VM_ID=`get_vm_id $VAGRANT_DIR/action_set_name`
 
 # Export the OVA
 echo "Exporting VirtualBox VM $VM_ID"

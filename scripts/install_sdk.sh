@@ -8,7 +8,7 @@ then
 	echo "Downloading SDK to $TAR_LOC"
 	wget $SDK_LINK -O $TAR_LOC
 else
-	echo "SDK already downloaded to $TAR_LOC" 
+	echo "SDK already downloaded to $TAR_LOC"
 fi
 
 # Unzip SDK
@@ -21,17 +21,21 @@ else
   echo "SDK detected at $SDK_LOC"
 fi
 
-# Install platform 21
-echo y | $SDK_LOC/tools/android update sdk --no-ui --all --filter build-tools-21.1.2
-echo y | $SDK_LOC/tools/android update sdk --no-ui --all --filter platform-tools
-echo y | $SDK_LOC/tools/android update sdk --no-ui --all --filter android-21
-echo y | $SDK_LOC/tools/android update sdk --no-ui --all --filter extra-android-support
-echo y | $SDK_LOC/tools/android update sdk --no-ui --all --filter extra-google-google_play_services
-echo y | $SDK_LOC/tools/android update sdk --no-ui --all --filter extra-google-m2repository
-echo y | $SDK_LOC/tools/android update sdk --no-ui --all --filter extra-android-m2repository
-echo y | $SDK_LOC/tools/android update sdk --no-ui --all --filter source-21
-echo y | $SDK_LOC/tools/android update sdk --no-ui --all --filter addon-google_apis-google-21
-echo y | $SDK_LOC/tools/android update sdk --no-ui --all --filter sys-img-x86-addon-google_apis-google-21
+# Auto-install Android SDK Component
+sdk_install() {
+    echo y | $SDK_LOC/tools/android update sdk --no-ui --all --filter $1
+}
+
+sdk_install build-tools-21.1.2
+sdk_install platform-tools
+sdk_install android-21
+sdk_install extra-android-support
+sdk_install extra-google-google_play_services
+sdk_install extra-google-m2repository
+sdk_install extra-android-m2repository
+sdk_install source-21
+sdk_install addon-google_apis-google-21
+sdk_install sys-img-x86-addon-google_apis-google-21
 
 # Set SDK Permissions
 echo "Setting SDK permissions"
