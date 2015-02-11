@@ -7,7 +7,7 @@
 # you're doing.
 Vagrant.configure(2) do |config|
   # Use Ubuntu Trusty (14.x) 32-bit
-  config.vm.box = "ubuntu/trusty32"
+  config.vm.box = "ubuntu/trusty64"
 
   # Virtualbox GUI
   config.vm.provider "virtualbox" do |v|
@@ -30,4 +30,7 @@ Vagrant.configure(2) do |config|
 
   # Fix ADB (VirtualBox USB Hack)
   config.vm.provision :shell, path: "scripts/fix_adb.sh", run: "always"
+
+  # Install Docker
+  config.vm.provision :shell, path: "scripts/install_docker.sh"
 end
