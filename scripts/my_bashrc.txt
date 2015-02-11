@@ -1,4 +1,5 @@
 PATH=$PATH:$HOME/Android/Sdk/platform-tools
 PATH=$PATH:$HOME/Android/Sdk/tools
 PATH=$PATH:/vagrant
-export PATH
+DISPLAY=:0
+export DISPLAY PATH
