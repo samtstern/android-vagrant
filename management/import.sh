@@ -15,7 +15,7 @@ VBoxManage import $ARCHIVE_DIR/virtualbox.ovf
 echo "Importing Vagrant Box"
 vagrant box add $ARCHIVE_DIR/package.box \
     --force \
-    --name "ubuntu/trusty32"
+    --name "ubuntu/trusty64"
 
 # Import the .vagrant files
 echo "Importing .vagrant files"

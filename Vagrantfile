@@ -6,7 +6,7 @@
 # backwards compatibility). Please don't change it unless you know what
 # you're doing.
 Vagrant.configure(2) do |config|
-  # Use Ubuntu Trusty (14.x) 32-bit
+  # Use Ubuntu Trusty (14.x) 64-bit
   config.vm.box = "ubuntu/trusty64"
 
   # Virtualbox GUI
@@ -20,16 +20,16 @@ Vagrant.configure(2) do |config|
   config.vm.provision :shell, path: "scripts/install_deps.sh"
 
   # Install Android SDK
-  config.vm.provision :shell, path: "scripts/install_sdk.sh"
+  # config.vm.provision :shell, path: "scripts/install_sdk.sh"
 
   # Install Android Studio
-  config.vm.provision :shell, path: "scripts/install_studio.sh"
+  # config.vm.provision :shell, path: "scripts/install_studio.sh"
 
   # Configure bashrc
-  config.vm.provision :shell, path: "scripts/bash_config.sh"
+  # config.vm.provision :shell, path: "scripts/bash_config.sh"
 
   # Fix ADB (VirtualBox USB Hack)
-  config.vm.provision :shell, path: "scripts/fix_adb.sh", run: "always"
+  # config.vm.provision :shell, path: "scripts/fix_adb.sh", run: "always"
 
   # Install Docker
   config.vm.provision :shell, path: "scripts/install_docker.sh"

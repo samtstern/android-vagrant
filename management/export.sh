@@ -32,7 +32,7 @@ fi
 echo "Packaging Vagrant Box"
 if ! $DEBUG; then
     # TODO(samstern): make this more general
-    vagrant box repackage "ubuntu/trusty32" "virtualbox" "14.04"
+    vagrant box repackage "ubuntu/trusty64" "virtualbox" "14.04"
     mv $BASE_DIR/package.box $OUTPUT_DIR
 fi
 
