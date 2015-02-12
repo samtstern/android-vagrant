@@ -1,4 +1,6 @@
-FROM ubuntu:14.04
+FROM android-base
+
+USER root
 
 ENV HOME="/home/vagrant"
 ENV STUDIO_LINK="https://dl.google.com/dl/android/studio/ide-zips/1.0.1/android-studio-ide-135.1641136-linux.zip"
@@ -7,7 +9,7 @@ ENV STUDIO_LOC="$HOME/android-studio"
 
 # Dependencies
 RUN apt-get update && \
-    apt-get install -y wget unzip default-jdk
+    apt-get install -y wget unzip
 
 # Download and Unzip Android Studio, then delete the zip
 RUN echo "Downloading Android Studio" && \
@@ -20,7 +22,7 @@ RUN echo "Downloading Android Studio" && \
 
 # 1000 is the default vagrant uid/gid
 RUN export uid=1000 gid=1000 && \
-    mkdir -p /home/vagrant && \
+    mkdir -p $HOME && \
     echo "vagrant:x:${uid}:${gid}:Vagrant,,,:/home/vagrant:/bin/bash" >> /etc/passwd && \
     echo "vagrant:x:${uid}:" >> /etc/group && \
     echo "vagrant ALL=(ALL) NOPASSWD: ALL" > /etc/sudoers.d/vagrant && \
