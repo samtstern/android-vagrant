@@ -1,1 +1,4 @@
-sudo docker run -ti android-base /bin/bash
+sudo docker run -ti --privileged \
+    -v /dev/bus/usb:/dev/bus/usb \
+    android-base \
+    /bin/bash
