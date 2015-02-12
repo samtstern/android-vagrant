@@ -9,14 +9,14 @@ ENV STUDIO_LOC="$HOME/android-studio"
 RUN apt-get update && \
     apt-get install -y wget unzip default-jdk
 
-# Download Android Studio
+# Download and Unzip Android Studio, then delete the zip
 RUN echo "Downloading Android Studio" && \
     mkdir -p $HOME && \
-    wget $STUDIO_LINK -O $ZIP_LOC
-
-# Unzip Android Studio
-RUN echo "Unzipping Android Studio" && \
-    unzip -d $STUDIO_LOC $ZIP_LOC
+    wget $STUDIO_LINK -O $ZIP_LOC && \
+    echo "Unzipping Android Studio" && \
+    unzip -d $STUDIO_LOC $ZIP_LOC && \
+    echo "Cleaning up..." && \
+    rm $ZIP_LOC
 
 # 1000 is the default vagrant uid/gid
 RUN export uid=1000 gid=1000 && \
