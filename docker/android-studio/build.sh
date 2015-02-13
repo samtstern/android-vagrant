@@ -1,1 +1,1 @@
-sudo docker build -t android-studio .
+sudo docker build -t "samtstern/android-studio" .

@@ -1,1 +1,1 @@
-sudo docker build -t android-base .
+sudo docker build -t "samtstern/android-base" .
