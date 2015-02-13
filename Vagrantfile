@@ -43,7 +43,8 @@ Vagrant.configure(2) do |config|
       ENV["DOCKER_RUN"].split(",").each do |container|
         d.run container, args: "-d -v /tmp/.X11-unix:/tmp/.X11-unix \
                                 -e DISPLAY=$DISPLAY -privileged \
-                                -v /dev/bus/usb:/dev/bus/usb"
+                                -v /dev/bus/usb:/dev/bus/usb \
+                                --restart=always"
       end
     end
   end
