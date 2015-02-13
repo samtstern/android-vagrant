@@ -1,34 +1,16 @@
 FROM samtstern/android-base
 
-USER root
+# Download and Unzip Android Studio
+ENV ANDROID_STUDIO_URL="https://dl.google.com/dl/android/studio/ide-zips/1.0.1/android-studio-ide-135.1641136-linux.zip"
+RUN curl -L ${ANDROID_STUDIO_URL} -o /tmp/android-studio-ide.zip && unzip /tmp/android-studio-ide.zip -d /usr/local && rm android-studio-ide.zip
+ENV ANDROID_STUDIO_HOME=/usr/local/android-studio
 
-ENV HOME="/home/vagrant"
-ENV STUDIO_LINK="https://dl.google.com/dl/android/studio/ide-zips/1.0.1/android-studio-ide-135.1641136-linux.zip"
-ENV ZIP_LOC="$HOME/android-studio.zip"
-ENV STUDIO_LOC="$HOME/android-studio"
+# Install extra Android SDK components
+ENV ANDROID_SDK_EXTRA_COMPONENTS=extra-google-google_play_services,extra-google-m2repository,extra-android-m2repository,source-21,addon-google_apis-google-21,sys-img-x86-addon-google_apis-google-21
+RUN echo y | ${ANDROID_HOME}/tools/android update sdk --no-ui --all --filter "${ANDROID_SDK_EXTRA_COMPONENTS}"
 
-# Dependencies
-RUN apt-get update && \
-    apt-get install -y wget unzip
+# Path
+ENV PATH $PATH:${ANDROID_STUDIO_HOME}/bin
 
-# Download and Unzip Android Studio, then delete the zip
-RUN echo "Downloading Android Studio" && \
-    mkdir -p $HOME && \
-    wget $STUDIO_LINK -O $ZIP_LOC && \
-    echo "Unzipping Android Studio" && \
-    unzip -d $STUDIO_LOC $ZIP_LOC && \
-    echo "Cleaning up..." && \
-    rm $ZIP_LOC
-
-# 1000 is the default vagrant uid/gid
-RUN export uid=1000 gid=1000 && \
-    mkdir -p $HOME && \
-    echo "vagrant:x:${uid}:${gid}:Vagrant,,,:/home/vagrant:/bin/bash" >> /etc/passwd && \
-    echo "vagrant:x:${uid}:" >> /etc/group && \
-    echo "vagrant ALL=(ALL) NOPASSWD: ALL" > /etc/sudoers.d/vagrant && \
-    chmod 0440 /etc/sudoers.d/vagrant && \
-    chown ${uid}:${gid} -R /home/vagrant
-
-# Run Android Studio
-USER vagrant
-CMD sh $HOME/android-studio/android-studio/bin/studio.sh & /bin/bash
+# Set Android Studio entrypoint
+ENTRYPOINT studio.sh

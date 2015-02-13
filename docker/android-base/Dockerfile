@@ -1,59 +1,21 @@
-FROM ubuntu:14.04
+FROM java:jdk
 
-ENV HOME="/home/vagrant"
-ENV SDK_LINK="http://dl.google.com/android/android-sdk_r24.0.2-linux.tgz"
-ENV TAR_LOC="$HOME/android-sdk.tgz"
-ENV SDK_LOC="$HOME/Android/Sdk"
+ENV DEBIAN_FRONTEND=noninteractive
 
 # Dependencies
-RUN apt-get update && \
-    dpkg --add-architecture i386 && \
-    apt-get install -y python-software-properties build-essential  zlib1g-dev libncurses5-dev lib32ncurses5-dev && \
-    apt-get install -y git wget unzip && \
-    apt-get install -y default-jdk
+RUN dpkg --add-architecture i386 && apt-get update && apt-get install -yq libstdc++6:i386 zlib1g:i386 libncurses5:i386 ant maven --no-install-recommends
+ENV GRADLE_URL=http://services.gradle.org/distributions/gradle-2.2.1-all.zip
+RUN curl -L ${GRADLE_URL} -o /tmp/gradle-2.2.1-all.zip && unzip /tmp/gradle-2.2.1-all.zip -d /usr/local && rm /tmp/gradle-2.2.1-all.zip
+ENV GRADLE_HOME /usr/local/gradle-2.2.1
 
-# Download and unzip SDK, then clean up
-RUN echo "Downloading SDK to $TAR_LOC" && \
-    mkdir -p $HOME && \
-    wget $SDK_LINK -O $TAR_LOC  && \
-    echo "Unzipping SDK to $SDK_LOC"  && \
-    mkdir -p $SDK_LOC  && \
-    tar -xvf $TAR_LOC -C $SDK_LOC --strip-components=1 && \
-    echo "Cleaning up" && \
-    rm $TAR_LOC
+# Download and untar SDK
+ENV ANDROID_SDK_URL=http://dl.google.com/android/android-sdk_r24.0.2-linux.tgz
+RUN curl -L ${ANDROID_SDK_URL} | tar xz -C /usr/local
+ENV ANDROID_HOME=/usr/local/android-sdk-linux
 
 # Install Android SDK components
-RUN echo y | $SDK_LOC/tools/android update sdk --no-ui --all --filter build-tools-21.1.2 && \
-    echo y | $SDK_LOC/tools/android update sdk --no-ui --all --filter platform-tools && \
-    echo y | $SDK_LOC/tools/android update sdk --no-ui --all --filter android-21 && \
-    echo y | $SDK_LOC/tools/android update sdk --no-ui --all --filter extra-android-support && \
-    echo y | $SDK_LOC/tools/android update sdk --no-ui --all --filter extra-google-google_play_services && \
-    echo y | $SDK_LOC/tools/android update sdk --no-ui --all --filter extra-google-m2repository && \
-    echo y | $SDK_LOC/tools/android update sdk --no-ui --all --filter extra-android-m2repository && \
-    echo y | $SDK_LOC/tools/android update sdk --no-ui --all --filter source-21 && \
-    echo y | $SDK_LOC/tools/android update sdk --no-ui --all --filter addon-google_apis-google-21 && \
-    echo y | $SDK_LOC/tools/android update sdk --no-ui --all --filter sys-img-x86-addon-google_apis-google-21
-
-# 1000 is the default vagrant uid/gid
-RUN export uid=1000 gid=1000 && \
-    mkdir -p $HOME && \
-    mkdir -p /etc/sudoers.d && \
-    echo "vagrant:x:${uid}:${gid}:Vagrant,,,:/home/vagrant:/bin/bash" >> /etc/passwd && \
-    echo "vagrant:x:${uid}:" >> /etc/group && \
-    echo "vagrant ALL=(ALL) NOPASSWD: ALL" > /etc/sudoers.d/vagrant && \
-    chmod 0440 /etc/sudoers.d/vagrant && \
-    chown ${uid}:${gid} -R $HOME
-
-# Set SDK Permissions
-RUN echo "Setting SDK permissions" && \
-    chown -R vagrant: "$HOME/Android"
-
-# ADB is 32-bit
-RUN apt-get update && \
-    apt-get install -y libncurses5:i386 libstdc++6:i386 zlib1g:i386
+ENV ANDROID_SDK_COMPONENTS=platform-tools,build-tools-21.1.2,android-21,extra-android-support
+RUN echo y | ${ANDROID_HOME}/tools/android update sdk --no-ui --all --filter "${ANDROID_SDK_COMPONENTS}"
 
 # Path
-ENV PATH=$PATH:$HOME/Android/Sdk/tools
-ENV PATH=$PATH:$HOME/Android/Sdk/platform-tools
-
-USER vagrant
+ENV PATH $PATH:${ANDROID_HOME}/tools:$ANDROID_HOME/platform-tools:${GRADLE_HOME}/bin
