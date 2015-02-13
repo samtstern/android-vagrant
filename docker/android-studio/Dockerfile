@@ -26,8 +26,8 @@ RUN export uid=1000 gid=1000 && \
     chown ${uid}:${gid} -R /home/vagrant
 
 # Install extra Android SDK components
-ENV ANDROID_SDK_COMPONENTS=platform-tools,build-tools-21.1.2,android-21,extra-android-support
-RUN echo y | ${ANDROID_HOME}/tools/android update sdk --no-ui --all --filter "${ANDROID_SDK_COMPONENTS}"
+ENV ANDROID_SDK_EXTRA_COMPONENTS=extra-google-google_play_services,extra-google-m2repository,extra-android-m2repository,source-21,addon-google_apis-google-21,sys-img-x86-addon-google_apis-google-21
+RUN echo y | ${ANDROID_HOME}/tools/android update sdk --no-ui --all --filter "${ANDROID_SDK_EXTRA_COMPONENTS}"
 
 # Run Android Studio
 USER vagrant
