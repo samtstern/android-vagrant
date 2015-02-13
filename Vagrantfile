@@ -16,20 +16,8 @@ Vagrant.configure(2) do |config|
     v.customize ['modifyvm', :id, '--usb', 'on']
   end
 
-  # Install Dependencies (window manager, java, etc)
+  # Install Dependencies (window manager)
   config.vm.provision :shell, path: "scripts/install_deps.sh"
-
-  # Install Android SDK
-  # config.vm.provision :shell, path: "scripts/install_sdk.sh"
-
-  # Install Android Studio
-  # config.vm.provision :shell, path: "scripts/install_studio.sh"
-
-  # Configure bashrc
-  config.vm.provision :shell, path: "scripts/bash_config.sh"
-
-  # Fix ADB (VirtualBox USB Hack)
-  # config.vm.provision :shell, path: "scripts/fix_adb.sh", run: "always"
 
   # Configure bashrc
   config.vm.provision :shell, path: "scripts/bash_config.sh"
