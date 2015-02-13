@@ -21,35 +21,27 @@ Run `vagrant up`.  You should see a VirtualBox window with a login prompt.  Sele
 
 From your host machine, run `vagrant ssh` inside the `android-vagrant` directory.  This will connect you to the VM.  You could also press `Ctrl+Alt+t` inside the VM to bring up a Terminal, but using ssh on the host machine has performance benefits.
 
-So far the VM doesn't do anything interesting!  This is because all of the real functionality is in Docker containers.  The next section describes how to run the container you want.
+So far the VM doesn't do anything interesting!  This is because all of the real functionality is in docker containers.  The next section describes how to run the container you want.
 
 ## Running Docker
-There are a few containers described in the `android-vagrant/docker` folder:
+There are a few docker images described in the `android-vagrant/docker` folder:
 
 * `android-base` - contains Java, the Android SDK, and all of the extras and tools (Google Play Services, adb, aapt, etc.)
-* `android-studio` - an extension of `android-base` that contains Android Studio and allows you to run Android Studio graphically in the vagrant VM.
+* `android-studio` - based on `android-base` that contains Android Studio and allows you to run Android Studio graphically in the vagrant VM.
 
-To build and run either a container, execute the following commands in your vagrant ssh session:
+To build a docker image  and run a container, execute the following commands in your vagrant ssh session:
 
-	cd /vagrant/docker/$CONTAINER_NAME
+	cd /vagrant/docker/$DOCKER_IMAGE
 	sh build.sh
 	sh run.sh
 	
-That will build the container and then run it with the proper options (such as USB forwarding, X11 display, etc).
+That will build the docker image and then run a container with the proper options (such as USB forwarding, X11 display, etc).
 
 
 ## USB Debugging
-Connect your Android device to your computer using a USB cable.  Make sure you have [enabled USB debugging](http://developer.android.com/tools/device.html#setting-up) on your device.  From the VM menu, select **Devices > USB Devices > [your device]**.  This will connect your device to the VM over USB.  Run `adb devices` to confirm that it is connected.  If you see output like:
+Connect your Android device to your computer using a USB cable.  Make sure you have [enabled USB debugging](http://developer.android.com/tools/device.html#setting-up) on your device.  From the VM menu, select **Devices > USB Devices > [your device]**.  This will connect your device to the VM over USB.  Run `adb devices` to confirm that it is connected.
 
-	List of devices attached
-	??????????? 	no permissions
-	
-then you need to run `sh /vagrant/scripts/fix_adb.sh`.  You should then see output like:
-
-	List of devices attached
-	TXABC1234		unauthorized
-	
-if you accept the debugging dialog on your phone, then your device's status will change from `unauthorized` to `device` and you are ready for debugging.
+If you accept the debugging dialog on your phone, then your device's status will change from `unauthorized` to `device` and you are ready for debugging.
 
 ## Sharing Code and Files
 The `/vagrant` directory (don't confuse this with `/home/vagrant`, which is `$HOME`) in the VM is synchronized with the directory containing the `Vagrantfile` on your host machine.  If you create Android Studio projects in the VM's `/vagrant` directory, they will be synchronized to your host machine for later editing/sharing.
