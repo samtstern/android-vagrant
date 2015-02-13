@@ -13,7 +13,7 @@ Vagrant.configure(2) do |config|
   config.vm.provider "virtualbox" do |v|
     v.memory = 2048
     v.gui = true
-    v.customize ['modifyvm', :id, '--usb', 'on']
+    v.customize ["modifyvm", :id, "--usb", "on"]
     # fix for slow network
     v.customize ["modifyvm", :id, "--natdnshostresolver1", "on"]
     v.customize ["modifyvm", :id, "--natdnsproxy1", "on"]
@@ -23,12 +23,18 @@ Vagrant.configure(2) do |config|
   # Install Dependencies (window manager)
   config.vm.provision :shell, path: "scripts/install_deps.sh"
 
-  # Install Docker
-  config.vm.provision :shell, path: "scripts/install_docker.sh"
 
-  if ENV['DOCKER_BUILD']
-       config.vm.provision :shell, path: "scripts/build_docker_android_base.sh"
-       config.vm.provision :shell, path: "scripts/build_docker_android_studio.sh"
+  Vagrant.configure("2") do |config|
+    config.vm.provision "docker" do |d|
+      if ENV["DOCKER_PULL"]
+        d.pull_images "samtstern/android-base"
+        d.pull_images "samtstern/android-studio"
+      end
+      if ENV["DOCKER_BUILD"]
+        d.build_image "/vagrant/docker/android-base", args: "-t samtstern/android-base"
+        d.build_image "/vagrant/docker/android-studio", args: "-t samtstern/android-studio"
+      end
+    end
   end
 
   # install profile.d hooks, need to to this with shell
