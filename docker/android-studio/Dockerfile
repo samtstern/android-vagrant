@@ -1,4 +1,4 @@
-FROM android-base
+FROM samtstern/android-base
 
 USER root
 
@@ -31,4 +31,4 @@ RUN export uid=1000 gid=1000 && \
 
 # Run Android Studio
 USER vagrant
-CMD sh $HOME/android-studio/android-studio/bin/studio.sh
+CMD sh $HOME/android-studio/android-studio/bin/studio.sh & /bin/bash
