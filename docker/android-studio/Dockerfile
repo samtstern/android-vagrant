@@ -7,10 +7,6 @@ ENV STUDIO_LINK="https://dl.google.com/dl/android/studio/ide-zips/1.0.1/android-
 ENV ZIP_LOC="$HOME/android-studio.zip"
 ENV STUDIO_LOC="$HOME/android-studio"
 
-# Dependencies
-RUN apt-get update && \
-    apt-get install -y wget unzip
-
 # Download and Unzip Android Studio, then delete the zip
 RUN echo "Downloading Android Studio" && \
     mkdir -p $HOME && \
@@ -28,6 +24,10 @@ RUN export uid=1000 gid=1000 && \
     echo "vagrant ALL=(ALL) NOPASSWD: ALL" > /etc/sudoers.d/vagrant && \
     chmod 0440 /etc/sudoers.d/vagrant && \
     chown ${uid}:${gid} -R /home/vagrant
+
+# Install extra Android SDK components
+ENV ANDROID_SDK_COMPONENTS=platform-tools,build-tools-21.1.2,android-21,extra-android-support
+RUN echo y | ${ANDROID_HOME}/tools/android update sdk --no-ui --all --filter "${ANDROID_SDK_COMPONENTS}"
 
 # Run Android Studio
 USER vagrant
