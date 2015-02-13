@@ -20,22 +20,19 @@ Vagrant.configure(2) do |config|
     v.customize ["modifyvm", :id, "--nictype1", "virtio"]
   end
 
-  # Install Dependencies (window manager)
-  config.vm.provision :shell, path: "scripts/install_deps.sh"
-
-
-  Vagrant.configure("2") do |config|
-    config.vm.provision "docker" do |d|
-      if ENV["DOCKER_PULL"]
-        d.pull_images "samtstern/android-base"
-        d.pull_images "samtstern/android-studio"
-      end
-      if ENV["DOCKER_BUILD"]
-        d.build_image "/vagrant/docker/android-base", args: "-t samtstern/android-base"
-        d.build_image "/vagrant/docker/android-studio", args: "-t samtstern/android-studio"
-      end
+  config.vm.provision "docker" do |d|
+    if ENV["DOCKER_PULL"]
+      d.pull_images "samtstern/android-base"
+      d.pull_images "samtstern/android-studio"
+    end
+    if ENV["DOCKER_BUILD"]
+      d.build_image "/vagrant/docker/android-base", args: "-t samtstern/android-base"
+      d.build_image "/vagrant/docker/android-studio", args: "-t samtstern/android-studio"
     end
   end
+
+  # Install Dependencies (window manager)
+  config.vm.provision :shell, path: "scripts/install_deps.sh"
 
   # install profile.d hooks, need to to this with shell
   # because file provisions are not run as sudo
