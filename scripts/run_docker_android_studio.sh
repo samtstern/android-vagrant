@@ -1,3 +1,4 @@
+#!/bin/sh
 sudo docker run -ti --privileged \
     -e DISPLAY \
     -v /dev/bus/usb:/dev/bus/usb \

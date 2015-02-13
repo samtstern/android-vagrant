@@ -26,6 +26,11 @@ Vagrant.configure(2) do |config|
   # Install Docker
   config.vm.provision :shell, path: "scripts/install_docker.sh"
 
+  if ENV['DOCKER_BUILD']
+       config.vm.provision :shell, path: "scripts/build_docker_android_base.sh"
+       config.vm.provision :shell, path: "scripts/build_docker_android_studio.sh"
+  end
+
   # install profile.d hooks
   config.vm.provision "file", source: "scripts/android_vagrant_env.sh", destination: "/etc/profile.d/android_vagrant_env.sh"
 end
