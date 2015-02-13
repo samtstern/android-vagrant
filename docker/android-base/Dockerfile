@@ -1,4 +1,4 @@
-FROM java:openjdk-6-jdk
+FROM java:jdk
 
 ENV DEBIAN_FRONTEND=noninteractive
 
