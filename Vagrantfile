@@ -31,6 +31,8 @@ Vagrant.configure(2) do |config|
        config.vm.provision :shell, path: "scripts/build_docker_android_studio.sh"
   end
 
-  # install profile.d hooks
-  config.vm.provision "file", source: "scripts/android_vagrant_env.sh", destination: "/etc/profile.d/android_vagrant_env.sh"
+  # install profile.d hooks, need to to this with shell
+  # because file provisions are not run as sudo
+  config.vm.provision :shell,
+    inline: "cp /vagrant/scripts/android_vagrant_env.sh /etc/profile.d/"
 end
