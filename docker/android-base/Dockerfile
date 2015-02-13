@@ -6,7 +6,7 @@ ENV ANDROID_HOME=/usr/local/android-sdk-linux
 ENV GRADLE_URL=http://services.gradle.org/distributions/gradle-2.2.1-bin.zip
 
 # Dependencies
-RUN dpkg --add-architecture i386 && apt-get update && apt-get install -yq libstdc++6:i386 zlib1g:i386 libncurses5:i386 ant maven
+RUN dpkg --add-architecture i386 && apt-get update && apt-get install -yq libstdc++6:i386 zlib1g:i386 libncurses5:i386 ant maven --no-recommends
 RUN curl -L ${GRADLE_URL} -o /tmp/gradle-2.2.1-all.zip && unzip /tmp/gradle-2.2.1-all.zip -d /usr/local && rm /tmp/gradle-2.2.1-all.zip
 ENV GRADLE_HOME /usr/local/gradle-2.2.1
 
