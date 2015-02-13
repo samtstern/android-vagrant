@@ -21,21 +21,21 @@ Run `vagrant up`.  You should see a VirtualBox window with a login prompt.  Sele
 
 From your host machine, run `vagrant ssh` inside the `android-vagrant` directory.  This will connect you to the VM.  You could also press `Ctrl+Alt+t` inside the VM to bring up a Terminal, but using ssh on the host machine has performance benefits.
 
-So far the VM doesn't do anything interesting!  This is because all of the real functionality is in Docker containers.  The next section describes how to run the container you want.
+So far the VM doesn't do anything interesting!  This is because all of the real functionality is in docker containers.  The next section describes how to run the container you want.
 
 ## Running Docker
-There are a few containers described in the `android-vagrant/docker` folder:
+There are a few docker images described in the `android-vagrant/docker` folder:
 
 * `android-base` - contains Java, the Android SDK, and all of the extras and tools (Google Play Services, adb, aapt, etc.)
-* `android-studio` - an extension of `android-base` that contains Android Studio and allows you to run Android Studio graphically in the vagrant VM.
+* `android-studio` - based on `android-base` that contains Android Studio and allows you to run Android Studio graphically in the vagrant VM.
 
-To build and run either a container, execute the following commands in your vagrant ssh session:
+To build a docker image  and run a container, execute the following commands in your vagrant ssh session:
 
-	cd /vagrant/docker/$CONTAINER_NAME
+	cd /vagrant/docker/$DOCKER_IMAGE
 	sh build.sh
 	sh run.sh
 	
-That will build the container and then run it with the proper options (such as USB forwarding, X11 display, etc).
+That will build the docker image and then run a container with the proper options (such as USB forwarding, X11 display, etc).
 
 
 ## USB Debugging
