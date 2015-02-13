@@ -23,9 +23,9 @@ Vagrant.configure(2) do |config|
   # Install Dependencies (window manager)
   config.vm.provision :shell, path: "scripts/install_deps.sh"
 
-  # Configure bashrc
-  config.vm.provision :shell, path: "scripts/bash_config.sh"
-
   # Install Docker
   config.vm.provision :shell, path: "scripts/install_docker.sh"
+
+  # install profile.d hooks
+  config.vm.provision "file", source: "scripts/android_vagrant_env.sh", destination: "/etc/profile.d/android_vagrant_env.sh"
 end
