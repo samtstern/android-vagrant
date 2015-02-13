@@ -14,6 +14,10 @@ Vagrant.configure(2) do |config|
     v.memory = 2048
     v.gui = true
     v.customize ['modifyvm', :id, '--usb', 'on']
+    # fix for slow network
+    v.customize ["modifyvm", :id, "--natdnshostresolver1", "on"]
+    v.customize ["modifyvm", :id, "--natdnsproxy1", "on"]
+    v.customize ["modifyvm", :id, "--nictype1", "virtio"]
   end
 
   # Install Dependencies (window manager, java, etc)
