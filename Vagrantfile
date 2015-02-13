@@ -20,17 +20,6 @@ Vagrant.configure(2) do |config|
     v.customize ["modifyvm", :id, "--nictype1", "virtio"]
   end
 
-  config.vm.provision "docker" do |d|
-    if ENV["DOCKER_PULL"]
-      d.pull_images "samtstern/android-base"
-      d.pull_images "samtstern/android-studio"
-    end
-    if ENV["DOCKER_BUILD"]
-      d.build_image "/vagrant/docker/android-base", args: "-t samtstern/android-base"
-      d.build_image "/vagrant/docker/android-studio", args: "-t samtstern/android-studio"
-    end
-  end
-
   # Install Dependencies (window manager)
   config.vm.provision :shell, path: "scripts/install_deps.sh"
 
@@ -38,4 +27,22 @@ Vagrant.configure(2) do |config|
   # because file provisions are not run as sudo
   config.vm.provision :shell,
     inline: "cp /vagrant/scripts/android_vagrant_env.sh /etc/profile.d/"
+
+  config.vm.provision "docker" do |d|
+    if ENV["DOCKER_PULL"]
+      ENV["DOCKER_PULL"].split(",").each do |container|
+        d.pull_images container
+      end
+    end
+    if ENV["DOCKER_BUILD"]
+      ENV["DOCKER_BUILD"].split(",").each do |container|
+        d.build_image "/vagrant/docker/" + container, args: "-t " + container
+      end
+    end
+    if ENV["DOCKER_RUN"]
+      ENV["DOCKER_RUN"].split(",").each do |container|
+        d.run container, args: "-v /tmp/.X11-unix:/tmp/.X11-unix -e DISPLAY=$DISPLAY"
+      end
+    end
+  end
 end
