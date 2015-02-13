@@ -36,7 +36,7 @@ Vagrant.configure(2) do |config|
     end
     if ENV["DOCKER_BUILD"]
       ENV["DOCKER_BUILD"].split(",").each do |container|
-        d.build_image "/vagrant/docker/" + container, args: "-t " + container
+        d.build_image "/vagrant/docker/" + File.basename(container), args: "-t " + container
       end
     end
     if ENV["DOCKER_RUN"]
