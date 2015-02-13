@@ -39,17 +39,9 @@ That will build the docker image and then run a container with the proper option
 
 
 ## USB Debugging
-Connect your Android device to your computer using a USB cable.  Make sure you have [enabled USB debugging](http://developer.android.com/tools/device.html#setting-up) on your device.  From the VM menu, select **Devices > USB Devices > [your device]**.  This will connect your device to the VM over USB.  Run `adb devices` to confirm that it is connected.  If you see output like:
+Connect your Android device to your computer using a USB cable.  Make sure you have [enabled USB debugging](http://developer.android.com/tools/device.html#setting-up) on your device.  From the VM menu, select **Devices > USB Devices > [your device]**.  This will connect your device to the VM over USB.  Run `adb devices` to confirm that it is connected.
 
-	List of devices attached
-	??????????? 	no permissions
-	
-then you need to run `sh /vagrant/scripts/fix_adb.sh`.  You should then see output like:
-
-	List of devices attached
-	TXABC1234		unauthorized
-	
-if you accept the debugging dialog on your phone, then your device's status will change from `unauthorized` to `device` and you are ready for debugging.
+If you accept the debugging dialog on your phone, then your device's status will change from `unauthorized` to `device` and you are ready for debugging.
 
 ## Sharing Code and Files
 The `/vagrant` directory (don't confuse this with `/home/vagrant`, which is `$HOME`) in the VM is synchronized with the directory containing the `Vagrantfile` on your host machine.  If you create Android Studio projects in the VM's `/vagrant` directory, they will be synchronized to your host machine for later editing/sharing.
