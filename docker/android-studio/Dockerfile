@@ -2,7 +2,7 @@ FROM samtstern/android-base
 
 # Download and Unzip Android Studio
 ENV ANDROID_STUDIO_URL="https://dl.google.com/dl/android/studio/ide-zips/1.0.1/android-studio-ide-135.1641136-linux.zip"
-RUN curl -L ${ANDROID_STUDIO_URL} -o /tmp/android-studio-ide.zip && unzip /tmp/android-studio-ide.zip -d /usr/local && rm android-studio-ide.zip
+RUN curl -L ${ANDROID_STUDIO_URL} -o /tmp/android-studio-ide.zip && unzip /tmp/android-studio-ide.zip -d /usr/local && rm /tmp/android-studio-ide.zip
 ENV ANDROID_STUDIO_HOME=/usr/local/android-studio
 
 # Install extra Android SDK components
