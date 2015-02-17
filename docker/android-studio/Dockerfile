@@ -1,4 +1,4 @@
-FROM samtstern/android-base
+FROM samtstern/android-sdk
 
 # Download and Unzip Android Studio
 ENV ANDROID_STUDIO_URL https://dl.google.com/dl/android/studio/ide-zips/1.0.1/android-studio-ide-135.1641136-linux.zip
