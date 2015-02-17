@@ -26,20 +26,20 @@ So far the VM doesn't do anything interesting!  This is because all of the real 
 ## Running Docker
 There are a few docker images described in the `android-vagrant/docker` folder:
 
-* `samtstern/android-base` - contains Java, the Android SDK, and all of the extras and tools (Google Play Services, adb, aapt, etc.)
-* `samtstern/android-studio` - based on `samtsternandroid-base` that contains Android Studio and allows you to run Android Studio graphically in the vagrant VM.
+* `samtstern/android-sdk` - contains Java, the Android SDK, and all of the extras and tools (Google Play Services, adb, aapt, etc.)
+* `samtstern/android-studio` - based on `samtstern/android-sdk` that contains Android Studio and allows you to run Android Studio graphically in the vagrant VM.
 
 To build a docker image, run one of the `build_docker_*_.sh` scripts in the `/vagrant/scripts` folder.
 
 To run a docker image that you built, run `sh run_docker.sh $CONTAINER_NAME $CMD`, replacing `$CONTAINER_NAME` with the name of the container to run, and `$CMD` (optional) with a command to run.  Example:
 
 	# Run `adb devices` in the base android image
-	run_docker.sh "samtstern/android-base" "adb devices"
+	run_docker.sh "samtstern/android-sdk" "adb devices"
 	
 	# Run the android studio image
 	run_docker.sh "samtstern/android-studio"
 
-Note: the images are hosted on docker hub, so `samtstern/android-studio` can be built without first building `samtstern/android-base`, however due to network performance issues in VirtualBox it is usually faster to build the `samtstern/android-base` image locally and then build the `samtstern/android-studio` image.
+Note: the images are hosted on docker hub, so `samtstern/android-studio` can be built without first building `samtstern/android-sdk`, however due to network performance issues in VirtualBox it is usually faster to build the `samtstern/android-sdk` image locally and then build the `samtstern/android-studio` image.
 
 
 ## USB Debugging
